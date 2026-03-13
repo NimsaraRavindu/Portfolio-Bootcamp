@@ -49,10 +49,69 @@ const pinnedProjects = [
   },
 ];
 
-const achievements = [
-  "Computer Society of Zahira College — 1st place in Quiz Competition (2023)",
-  "Musaeus College — 3rd place, Senior Category, Inter-School IT Quiz Competition (2023)",
-  "Cambridge Learner Awards — Outstanding Learner Award (2022)",
+const journeyFlow = [
+  {
+    type: "milestone",
+    title: "Major Milestone",
+    phase: "Lyceum",
+    year: "2009-2024",
+    text: "Lyceum International School — built core leadership and discipline through prefect duties, societies, and team events.",
+  },
+  {
+    type: "achievement",
+    phase: "Lyceum",
+    year: "2022",
+    text: "Cambridge Learner Awards — Outstanding Learner Award.",
+  },
+  {
+    type: "achievement",
+    phase: "Lyceum",
+    year: "2023",
+    text: "Computer Society of Zahira College — 1st place in Quiz Competition.",
+  },
+  {
+    type: "achievement",
+    phase: "Lyceum",
+    year: "2023",
+    text: "Musaeus College — 3rd place, Senior Category, Inter-School IT Quiz Competition.",
+  },
+  {
+    type: "milestone",
+    title: "Major Milestone",
+    phase: "IIT",
+    year: "2024-Present",
+    text: "Informatics Institute of Technology (IIT) — advancing through BSc Computer Science with full-stack and AI-focused product work.",
+  },
+  {
+    type: "achievement",
+    phase: "IIT",
+    year: "2025",
+    text: "Completed an 8-month Java course at ICET while studying at IIT.",
+  },
+  {
+    type: "contribution",
+    phase: "IIT",
+    year: "Now",
+    text: "Reliable front-end implementation with attention to UI clarity and responsive behavior.",
+  },
+  {
+    type: "contribution",
+    phase: "IIT",
+    year: "Now",
+    text: "Back-end and database support for practical features built with maintainability in mind.",
+  },
+  {
+    type: "contribution",
+    phase: "IIT",
+    year: "Now",
+    text: "Curiosity for AI-enhanced workflows where they improve product value instead of adding noise.",
+  },
+  {
+    type: "contribution",
+    phase: "IIT",
+    year: "Now",
+    text: "Strong ownership in student-team settings, with room to grow under experienced engineers.",
+  },
 ];
 
 // Language → colour mapping for the dot badge
@@ -304,35 +363,32 @@ export default function Project() {
       )}
 
       {/* Achievements + contributions */}
+      <div className="journey-section-header">
+        <p className="eyebrow">Experience Flow</p>
+        <h3>Progression through leadership and engineering</h3>
+      </div>
+
       <div
         ref={journeyRef}
-        className={`journey-grid reveal-block reveal-up${journeyVisible ? " revealed" : ""}`}
+        className={`journey-flow reveal-block reveal-up${journeyVisible ? " revealed" : ""}`}
         id="journey"
       >
-        <article className="timeline-card">
-          <div className="timeline-heading">
-            <Award size={18} />
-            <h3>Achievements</h3>
-          </div>
-          <ul className="timeline-list">
-            {achievements.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-
-        <article className="timeline-card">
-          <div className="timeline-heading">
-            <Trophy size={18} />
-            <h3>What I want to contribute</h3>
-          </div>
-          <ul className="timeline-list">
-            <li>Reliable front-end implementation with attention to UI clarity and responsive behavior.</li>
-            <li>Back-end and database support for practical features built with maintainability in mind.</li>
-            <li>Curiosity for AI-enhanced workflows where they improve product value instead of adding noise.</li>
-            <li>Strong ownership in student-team settings, with room to grow under experienced engineers.</li>
-          </ul>
-        </article>
+        {journeyFlow.map((item, i) => (
+          <article
+            key={`${item.type}-${i}`}
+            className={`journey-step journey-step-${i % 2 === 0 ? "left" : "right"} stagger-child${item.type === "milestone" ? " journey-step-major" : ""}`}
+            style={{ "--stagger": i }}
+          >
+            <span className="journey-step-icon" aria-hidden="true">
+              {item.type === "milestone" ? <Sparkles size={14} /> : item.type === "achievement" ? <Award size={14} /> : <Trophy size={14} />}
+            </span>
+            <p className="journey-step-tag">
+              {item.title ?? (item.type === "achievement" ? "Achievement" : "Contribution")}
+            </p>
+            <p className="journey-step-meta">{item.phase} • {item.year}</p>
+            <p className="journey-step-text">{item.text}</p>
+          </article>
+        ))}
       </div>
     </section>
   );

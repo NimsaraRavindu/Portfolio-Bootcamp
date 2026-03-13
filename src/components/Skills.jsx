@@ -26,7 +26,7 @@ const tools = [
 
 const certifications = [
   "Microsoft Azure AI Fundamentals - Microsoft (2025)",
-  "IT Certified Master Course - ICET (2025)",
+  "Completed 8-month Java Course - ICET (2025)",
   "Builder X AI Workshop - ICET and the Ministry of AI (2025)",
 ];
 
