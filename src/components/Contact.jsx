@@ -1,105 +1,147 @@
-import React, { useState } from "react";
+import React from "react";
+import { ExternalLink, GraduationCap, Mail, Phone, Users } from "lucide-react";
+import { useReveal } from "../hooks/useReveal";
+
+const education = [
+  {
+    place: "Informatics Institute of Technology (IIT)",
+    detail: "BSc (Hons) in Computer Science",
+    meta: "2024 - Present | Expected Graduation: 2028",
+  },
+  {
+    place: "Lyceum International School, Nugegoda",
+    detail: "Pearson Edexcel GCE Advanced Level: Information Technology (A), Physics (B), Mathematics (B)",
+    meta: "2024",
+  },
+  {
+    place: "Lyceum International School, Nugegoda",
+    detail: "Cambridge GCE Ordinary Level: 7 A* results",
+    meta: "2022",
+  },
+];
+
+const leadership = [
+  { text: "Senior Prefect at Lyceum International School (2023 - 2024)" },
+  { text: "Founder and Vice President of the Astronomy Society (2023 - 2024)" },
+  {
+    text: "Site visit to the NASA-led Wasgamuwa Multinational Research Facility — Astronomical Society of Lyceum Nugegoda",
+    href: "https://edu.dailymirror.lk/articles/news/1248/ASTRONOMICAL-SOCIETY-OF-LYCEUM-NUGEGODA-SITE-VISIT-TO-THE-NASA-LED-WASGAMUWA-MULTINATIONAL-RESEARCH-FACILITY",
+  },
+  { text: "Member of the ICT Society and active participant in inter-school IT competitions" },
+];
+
+const contactItems = [
+  { icon: Phone, label: "Phone", value: "+94 70 632 1038", href: "tel:+94706321038" },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "nimsararavindu123@gmail.com",
+    href: "mailto:nimsararavindu123@gmail.com",
+  },
+];
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [headingRef, headingVisible] = useReveal();
+  const [layoutRef, layoutVisible] = useReveal();
 
-  const handlechange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const mailtoLink = `mailto:your-email@example.com?subject=Portfolio Contact: ${formData.name}&body=Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`;
-    window.location.href = mailtoLink;
-    setFormData({ name: "", email: "", message: "" });
-  };
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-white to-gray-50 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
-            Contact US
-          </h2>
-          <p className="mt-4 text-xl text-center text-gray-600 font-semibold">
-            Let's connect and explore
-          </p>
-        </div>
-
-        {/* Contact form */}
-        <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-5"
-              >
-                Name:
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="name"
-                value={formData.name}
-                onChange={handlechange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded p-3"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-5"
-              >
-                Email:
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="placeholder@gmail.com"
-                value={formData.email}
-                onChange={handlechange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded p-3"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="text"
-                className="block text-sm font-medium text-gray-700 mb-5"
-              >
-                message:
-              </label>
-              <input
-                type="text"
-                id="message"
-                name="message"
-                placeholder="Message"
-                rows="4"
-                value={formData.message}
-                onChange={handlechange}
-                required
-                className="mt-1 block w-full border border-gray-300 rounded p-3"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full px-6 py-3 bg-gradient-to-r from-indigo-700  to-purple-700 text-white font-semibold"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
+    <section className="section-shell" id="contact">
+      <div
+        ref={headingRef}
+        className={`section-heading reveal-block reveal-up${headingVisible ? " revealed" : ""}`}
+      >
+        <p className="eyebrow">Journey and Contact</p>
+        <h2>Education, leadership, and how to reach me</h2>
+        <p>
+          I am looking for software development internship opportunities where I can contribute,
+          learn quickly, and grow through real engineering work.
+        </p>
       </div>
-    </div>
+
+      <div
+        ref={layoutRef}
+        className={`contact-layout reveal-block reveal-up${layoutVisible ? " revealed" : ""}`}
+      >
+        <article className="timeline-card">
+          <div className="timeline-heading">
+            <GraduationCap size={18} />
+            <h3>Education</h3>
+          </div>
+
+          <div className="education-list">
+            {education.map((item) => (
+              <div key={`${item.place}-${item.meta}`} className="education-item">
+                <h4>{item.place}</h4>
+                <p>{item.detail}</p>
+                <span>{item.meta}</span>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="timeline-card">
+          <div className="timeline-heading">
+            <Users size={18} />
+            <h3>Leadership and Teamwork</h3>
+          </div>
+          <ul className="timeline-list">
+            {leadership.map((item) =>
+              item.href ? (
+                <li key={item.text}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="leadership-link"
+                  >
+                    {item.text}
+                    <ExternalLink size={13} />
+                  </a>
+                </li>
+              ) : (
+                <li key={item.text}>{item.text}</li>
+              )
+            )}
+          </ul>
+
+          <div className="reference-note">
+            <p>References are available upon request.</p>
+          </div>
+        </article>
+
+        <aside className="contact-panel">
+          <p className="eyebrow">Direct Contact</p>
+          <h3>Start a conversation</h3>
+          <p>
+            If you have an internship opening, a collaborative project, or a role where I can add
+            value, I would be glad to connect.
+          </p>
+
+          <div className="contact-list">
+            {contactItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <a
+                  key={item.label}
+                  className="contact-card"
+                  href={item.href}
+                >
+                  <Icon size={18} />
+                  <span>
+                    <strong>{item.label}</strong>
+                    <small>{item.value}</small>
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+
+          <a className="primary-button contact-button" href="mailto:nimsararavindu123@gmail.com?subject=Internship Opportunity">
+            Contact for Opportunities
+          </a>
+        </aside>
+      </div>
+    </section>
   );
 }
