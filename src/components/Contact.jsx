@@ -2,9 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Bot, ExternalLink, GraduationCap, Mail, Phone, Send, Users, X } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 
-const GEMINI_MODEL = "gemini-2.5-flash";
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-
 const PROFILE_CONTEXT = `
 Name: Nimsara Aluthgedara
 Role: Computer Science undergraduate (IIT), internship seeker in software engineering
@@ -94,32 +91,23 @@ export default function Contact() {
   }, [messages, sending]);
 
   const askGemini = async (question) => {
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    if (!apiKey) {
-      return "Chatbot key is missing. Add VITE_GEMINI_API_KEY to your .env.local file.";
-    }
-
     const prompt = `You are a public-facing portfolio assistant. Answer briefly and accurately using the provided context. Do not assume the visitor knows the owner personally. If data is missing, say it clearly.\n\nContext:\n${PROFILE_CONTEXT}\n\nQuestion: ${question}`;
 
-    const response = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
+    const response = await fetch("/api/gemini", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.3,
-          maxOutputTokens: 220,
-        },
+        prompt,
       }),
     });
 
     if (!response.ok) {
-      let errorMessage = `Gemini API ${response.status}`;
+      let errorMessage = `Assistant API ${response.status}`;
       try {
         const errorData = await response.json();
-        const apiMessage = errorData?.error?.message;
+        const apiMessage = errorData?.error;
         if (apiMessage) errorMessage = `${errorMessage}: ${apiMessage}`;
       } catch {
         // keep default message when error body is not JSON
@@ -128,12 +116,7 @@ export default function Contact() {
     }
 
     const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text)
-      .filter(Boolean)
-      .join("\n");
-
-    return text || "I could not generate a response right now. Please try again.";
+    return data?.text || "I could not generate a response right now. Please try again.";
   };
 
   const handleSend = async (raw) => {
