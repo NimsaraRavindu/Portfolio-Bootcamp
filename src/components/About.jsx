@@ -166,7 +166,7 @@ function About() {
 
           <div className="status-card">
             <p>Currently seeking</p>
-            <h2>Software engineering internship — full-stack or AI focus</h2>
+            <h2>Software engineering internship — full-stack with an AI focus</h2>
           </div>
 
           <div className="metric-grid">
